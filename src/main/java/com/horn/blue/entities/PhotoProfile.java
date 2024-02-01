@@ -16,6 +16,6 @@ public class PhotoProfile {
     private String content;
     @Column(name = "photourl", nullable = true)
     private String photourl;
-    //olv
+    //ol
 }
 
