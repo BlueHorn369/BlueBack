@@ -7,13 +7,16 @@ import javax.persistence.*;
 @Entity
 @Table (name = "PhotoProfile")
 public class PhotoProfile {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-
-    private String content;
+    private int fotoID;
 
     @Column(name = "photourl", nullable = true)
     private String photourl;
+
+    @OneToOne
+    @JoinColumn(name = "userID",nullable = false)
+    private Users userPhotoID;
 }
 

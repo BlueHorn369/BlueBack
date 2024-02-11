@@ -1,0 +1,37 @@
+package com.horn.blue.entities;
+
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import org.springframework.format.annotation.DateTimeFormat;
+
+import javax.persistence.*;
+import java.util.Date;
+
+@Data
+@AllArgsConstructor
+@Entity
+@Table (name = "Users")
+public class Users {
+    @Id
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    private int userID;
+
+    @Column(name = "userName", nullable = false, length = 100)
+    private String userName;
+
+    @Column(name = "userLastName", nullable = false, length = 100)
+    private String userLastName;
+
+    @Column(name = "userPassword", nullable = false, length = 100)
+    private String userPassword;
+
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    @Column(name = "registerDate", nullable = false)
+    private Date registerDate;
+    /* @Column(name = "userActive", nullable = false, length = 100)
+     private String userActive;*/
+
+    private Boolean userActive;
+
+}
+
