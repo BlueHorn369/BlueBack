@@ -3,6 +3,8 @@ package com.horn.blue.controllers;
 import com.horn.blue.entities.Users;
 import com.horn.blue.serviceinterfaces.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -15,13 +17,14 @@ public class UserController {
     private UserService userService;
 
     @PostMapping("/register")
-    public void registerUser(@RequestBody Users user) {
-        userService.registerUser(user);
+    public ResponseEntity <Users> registerUser(@RequestBody Users user) {
+        Users littleuser = userService.registerUser(user);
+        return new ResponseEntity<>(littleuser, HttpStatus.OK);
     }
 
     @GetMapping("/list")
-    public List<Users> listUsers() {
-        return userService.listUsers();
+    public ResponseEntity < List<Users> > listUsers() {
+        return new ResponseEntity<>(userService.listUsers(), HttpStatus.OK);
     }
 
     @GetMapping("/search")
@@ -32,15 +35,41 @@ public class UserController {
     @PutMapping("/update/{userId}")
     public void updateUserData(@PathVariable int userId, @RequestBody Users updatedUser) {
         userService.updateUserData(userId, updatedUser);
-    }
+        //response entity pa todos los controllers
+        // no se usa void dice
 
-    @PutMapping("/update/{userName}/email-password")
-    public void updateEmailAndPassword(
-            @PathVariable String userName,
+    }
+//    @PutMapping("/update/{userName}/email-password")
+//    public void updateEmailAndPassword(
+//            @PathVariable String userName,
+//            @RequestParam String newEmail,
+//            @RequestParam String newPassword
+//    ) {
+//        userService.updateEmailAndPassword(userName, newEmail, newPassword);
+//    }
+
+    @PutMapping("/update/{userId}/updateEmailAndPassword")
+    public ResponseEntity<String> updateEmailAndPassword(
+            @PathVariable int userId,
             @RequestParam String newEmail,
-            @RequestParam String newPassword
-    ) {
-        userService.updateEmailAndPassword(userName, newEmail, newPassword);
+            @RequestParam String newPassword) {
+
+        try {
+            // Obtén el usuario existente
+            Users existingUser = userService.getUserById(userId);
+
+            // Actualiza el correo electrónico y la contraseña
+            existingUser.setUserEmail(newEmail);
+            existingUser.setUserPassword(newPassword);
+
+            // Guarda los cambios en la base de datos
+            userService.saveUser(existingUser);
+
+            return new ResponseEntity<>("Usuario actualizado correctamente", HttpStatus.OK);
+
+        } catch (Exception e) {
+            return new ResponseEntity<>("Error al actualizar el usuario", HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
 
     @DeleteMapping("/delete/{userId}")

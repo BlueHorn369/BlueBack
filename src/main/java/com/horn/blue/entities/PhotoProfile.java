@@ -10,10 +10,10 @@ public class PhotoProfile {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int fotoID;
+    private int photoID;
 
-    @Column(name = "photourl", nullable = true)
-    private String photourl;
+    @Column(name = "photoName", nullable = true)
+    private String photoName;
 
     @OneToOne
     @JoinColumn(name = "userID",nullable = false)

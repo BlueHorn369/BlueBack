@@ -5,10 +5,14 @@ import java.util.Optional;
 import java.util.List;
 
 public interface UserService {
-    void registerUser(Users user);
+    Users registerUser(Users user);
     List<Users> listUsers();
     List<Users> searchUsersByNameAndLastName(String userName, String userLastName);
     void updateUserData(int userId, Users updatedUser);
-    void updateEmailAndPassword(String userName, String newEmail, String newPassword);
+    //void updateEmailAndPassword(String userName, String newEmail, String newPassword);
     void deleteUser(int userId);
+    //nuevo
+    void updateEmailAndPassword(int userId, String newEmail, String newPassword);
+    Users getUserById(int userId);
+    void saveUser(Users user);
 }

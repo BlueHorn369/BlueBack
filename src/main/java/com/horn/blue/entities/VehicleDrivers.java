@@ -18,12 +18,10 @@ public class VehicleDrivers {
 
     @ManyToOne
     @JoinColumn(name = "carID",nullable = false)
-    //@Id
     private Vehicles carID;
 
     @OneToOne
     @JoinColumn(name = "userID",nullable = false, unique = true)
-    //@Id
     private Users userDriverID;
 
     private Boolean driverActive;
