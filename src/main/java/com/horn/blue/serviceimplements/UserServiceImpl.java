@@ -50,31 +50,42 @@ public class UserServiceImpl implements UserService {
         }
     }
 
-//    @Override
-//    public void updateEmailAndPassword(String userName, String newEmail, String newPassword) {
-//        Optional<Users> existingUser = userRepository.findByUserName(userName);
-//        existingUser.ifPresent(user -> {
-//            user.setUserName(newEmail);
-//            user.setUserPassword(newPassword);
-//            userRepository.save(user);
-//        });
-//    }
-
     @Override
     public void deleteUser(int userId) {
         userRepository.deleteById(userId);
     }
 
     @Override
-    public void updateEmailAndPassword(int userId, String newEmail, String newPassword) {
+    public void updateEmail(int userId, String newEmail, String currentPassword) {
+        try {
+
+            Users existingUser = getUserById(userId);
+
+            if (currentPassword.equals(existingUser.getUserPassword())) {
+                existingUser.setUserEmail(newEmail);
+                saveUser(existingUser);
+            } else {
+                throw new RuntimeException("La contraseña actual no es válida");
+            }
+        } catch (Exception e) {
+            throw new RuntimeException("Error al actualizar el correo electrónico", e);
+        }
+    }
+
+    @Override
+    public void changePassword(int userId, String currentPassword, String newPassword) {
         try {
             Users existingUser = getUserById(userId);
-            existingUser.setUserEmail(newEmail);
-            existingUser.setUserPassword(newPassword);
-            saveUser(existingUser);
+
+            if (currentPassword.equals(existingUser.getUserPassword())) {
+
+                existingUser.setUserPassword(newPassword);
+                saveUser(existingUser);
+            } else {
+                throw new RuntimeException("La contraseña actual no es válida");
+            }
         } catch (Exception e) {
-            // Manejo de excepciones si es necesario
-            throw new RuntimeException("Error al actualizar el usuario", e);
+            throw new RuntimeException("Error al cambiar la contraseña", e);
         }
     }
 

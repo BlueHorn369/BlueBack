@@ -39,38 +39,58 @@ public class UserController {
         // no se usa void dice
 
     }
-//    @PutMapping("/update/{userName}/email-password")
-//    public void updateEmailAndPassword(
-//            @PathVariable String userName,
-//            @RequestParam String newEmail,
-//            @RequestParam String newPassword
-//    ) {
-//        userService.updateEmailAndPassword(userName, newEmail, newPassword);
-//    }
 
-    @PutMapping("/update/{userId}/updateEmailAndPassword")
-    public ResponseEntity<String> updateEmailAndPassword(
+    @PutMapping("/update/{userId}/updateEmail")
+    public ResponseEntity<String> updateEmail(
             @PathVariable int userId,
             @RequestParam String newEmail,
-            @RequestParam String newPassword) {
+            @RequestParam String currentPassword) {
 
         try {
             // Obtén el usuario existente
             Users existingUser = userService.getUserById(userId);
 
-            // Actualiza el correo electrónico y la contraseña
-            existingUser.setUserEmail(newEmail);
-            existingUser.setUserPassword(newPassword);
+            // Verifica que la contraseña proporcionada coincida con la contraseña actual
+            if (currentPassword.equals(existingUser.getUserPassword())) {
+                // Actualiza el correo electrónico
+                existingUser.setUserEmail(newEmail);
 
-            // Guarda los cambios en la base de datos
-            userService.saveUser(existingUser);
+                // Guarda los cambios en la base de datos
+                userService.saveUser(existingUser);
 
-            return new ResponseEntity<>("Usuario actualizado correctamente", HttpStatus.OK);
+                return new ResponseEntity<>("Correo electrónico actualizado correctamente", HttpStatus.OK);
+            } else {
+                return new ResponseEntity<>("La contraseña actual no es válida", HttpStatus.BAD_REQUEST);
+            }
 
         } catch (Exception e) {
-            return new ResponseEntity<>("Error al actualizar el usuario", HttpStatus.INTERNAL_SERVER_ERROR);
+            return new ResponseEntity<>("Error al actualizar el correo electrónico", HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
+
+    @PutMapping("/update/{userId}/changePassword")
+    public ResponseEntity<String> changePassword(
+            @PathVariable int userId,
+            @RequestParam String currentPassword,
+            @RequestParam String newPassword) {
+
+        try {
+            Users existingUser = userService.getUserById(userId);
+
+            if (currentPassword.equals(existingUser.getUserPassword())) {
+                existingUser.setUserPassword(newPassword);
+                userService.saveUser(existingUser);
+
+                return new ResponseEntity<>("Contraseña cambiada correctamente", HttpStatus.OK);
+            } else {
+                return new ResponseEntity<>("La contraseña actual no es válida", HttpStatus.BAD_REQUEST);
+            }
+
+        } catch (Exception e) {
+            return new ResponseEntity<>("Error al cambiar la contraseña", HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
 
     @DeleteMapping("/delete/{userId}")
     public void deleteUser(@PathVariable int userId) {

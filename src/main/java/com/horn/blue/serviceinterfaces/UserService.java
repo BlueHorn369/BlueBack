@@ -9,10 +9,11 @@ public interface UserService {
     List<Users> listUsers();
     List<Users> searchUsersByNameAndLastName(String userName, String userLastName);
     void updateUserData(int userId, Users updatedUser);
-    //void updateEmailAndPassword(String userName, String newEmail, String newPassword);
+
     void deleteUser(int userId);
     //nuevo
-    void updateEmailAndPassword(int userId, String newEmail, String newPassword);
+    void updateEmail(int userId, String newEmail, String currentPassword);
+    void changePassword(int userId, String currentPassword, String newPassword);
     Users getUserById(int userId);
     void saveUser(Users user);
 }
