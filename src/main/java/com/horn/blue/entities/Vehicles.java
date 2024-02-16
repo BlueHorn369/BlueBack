@@ -20,10 +20,10 @@ public class Vehicles {
     private Users userOwnerID;
 
     @Column(name = "carPlate", nullable = false, length = 10)
-    private String userName;
+    private String carPlate;
 
     @Column(name = "carBrand", nullable = false, length = 100)
-    private String userLastName;
+    private String carBrand;
 
     private Boolean carActive;
 }
