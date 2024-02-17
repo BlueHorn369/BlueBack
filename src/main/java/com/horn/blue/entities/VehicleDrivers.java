@@ -6,7 +6,6 @@ import javax.persistence.*;
 import java.io.Serializable;
 
 @Data
-@AllArgsConstructor
 @Entity
 //@IdClass(VehicleDriversId.class)
 

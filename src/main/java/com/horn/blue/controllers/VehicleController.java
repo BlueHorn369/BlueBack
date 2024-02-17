@@ -17,38 +17,47 @@ public class VehicleController {
     @Autowired
     private VehicleService vehicleService;
 
-    @PostMapping("/register/{userId}")
+    @PostMapping("/register/{userID}")
     public ResponseEntity<String> registerVehicleForUser(
-            @PathVariable int userId,
+            @PathVariable int userID,
             @RequestBody Vehicles vehicle) {
 
         try {
-            vehicleService.registerVehicleForUser(userId, vehicle);
+            vehicleService.registerVehicleForUser(userID, vehicle);
             return new ResponseEntity<>("Vehículo registrado correctamente", HttpStatus.OK);
 
         } catch (Exception e) {
             return new ResponseEntity<>("Error al registrar el vehículo", HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
-    @PutMapping("/update/{userId}/{vehicleId}")
+    @PutMapping("/update/{userID}/{carID}")
     public ResponseEntity<String> updateVehicle(
-            @PathVariable int userId,
-            @PathVariable int vehicleId,
-            @RequestParam String currentPassword,
+            @PathVariable int userID,
+            @PathVariable int carID,
             @RequestBody Vehicles updatedVehicle) {
 
         try {
-            vehicleService.updateVehicle(userId, vehicleId, currentPassword, updatedVehicle);
-            return new ResponseEntity<>("Datos del vehículo actualizados correctamente", HttpStatus.OK);
+            Vehicles existingVehicle = vehicleService.getVehicleById(carID);
+
+            if (existingVehicle.getUserOwnerID().getUserID() != userID) {
+                return new ResponseEntity<>("No tienes permisos para actualizar este vehículo", HttpStatus.UNAUTHORIZED);
+            }
+            existingVehicle.setCarBrand(updatedVehicle.getCarBrand());
+            existingVehicle.setCarPlate(updatedVehicle.getCarPlate());
+            existingVehicle.setCarActive(updatedVehicle.getCarActive());
+
+            vehicleService.saveVehicle(existingVehicle);
+
+            return new ResponseEntity<>("Vehículo actualizado correctamente", HttpStatus.OK);
 
         } catch (Exception e) {
-            return new ResponseEntity<>("Error al actualizar los datos del vehículo", HttpStatus.INTERNAL_SERVER_ERROR);
+            return new ResponseEntity<>("Error al actualizar el vehículo", HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
-    @GetMapping("/list/{userId}")
-    public ResponseEntity<List<Vehicles>> getVehiclesByUserId(@PathVariable int userId) {
+    @GetMapping("/list/{userID}")
+    public ResponseEntity<List<Vehicles>> getVehiclesByUserId(@PathVariable int userID) {
         try {
-            List<Vehicles> vehicles = vehicleService.getVehiclesByUserId(userId);
+            List<Vehicles> vehicles = vehicleService.getVehiclesByUserId(userID);
             return new ResponseEntity<>(vehicles, HttpStatus.OK);
 
         } catch (Exception e) {
@@ -56,7 +65,7 @@ public class VehicleController {
         }
     }
 
-    @DeleteMapping("/delete/{userId}/{vehicleId}")
+    @DeleteMapping("/delete/{userID}/{carID}")
     public ResponseEntity<String> deleteVehicle(
             @PathVariable int userID,
             @PathVariable int carID,

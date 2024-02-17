@@ -13,7 +13,7 @@ public class PhotoProfileController {
     @Autowired
     private PhotoProfileService photoProfileService;
 
-    @PostMapping("/upload/{userId}")
+    @PostMapping("/upload/{userID}")
     public ResponseEntity<String> uploadPhotoProfile(
             @PathVariable int userID,
             @RequestParam("file") MultipartFile file) {

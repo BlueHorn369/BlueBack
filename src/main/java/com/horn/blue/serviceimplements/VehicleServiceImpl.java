@@ -22,11 +22,9 @@ public class VehicleServiceImpl implements VehicleService {
         @Override
         public void registerVehicleForUser(int userID, Vehicles vehicle) {
         try {
-
             Users owner = userService.getUserById(userID);
-
             vehicle.setUserOwnerID(owner);
-
+            vehicle.setCarActive(true);
             vehicleRepository.save(vehicle);
 
         } catch (Exception e) {
@@ -35,28 +33,22 @@ public class VehicleServiceImpl implements VehicleService {
     }
 
     @Override
-    public void updateVehicle(int userID, int carID, String currentPassword, Vehicles updatedVehicle) {
-        try {
-            Users owner = userService.getUserById(userID);
+    public void updateVehicle(int userID, int carID, Vehicles updatedVehicle) {
+            
+        vehicleRepository.save(updatedVehicle);
 
-            if (currentPassword.equals(owner.getUserPassword())) {
-                Vehicles existingVehicle = vehicleRepository.findById(carID)
-                        .orElseThrow(() -> new RuntimeException("Vehículo no encontrado"));
-
-                existingVehicle.setCarPlate(updatedVehicle.getCarPlate());
-                existingVehicle.setCarBrand(updatedVehicle.getCarBrand());
-                existingVehicle.setCarActive(updatedVehicle.getCarActive());
-
-                vehicleRepository.save(existingVehicle);
-            } else {
-                throw new RuntimeException("La contraseña actual no es válida");
-            }
-
-        } catch (Exception e) {
-            throw new RuntimeException("Error al actualizar el vehículo", e);
-        }
     }
 
+    @Override
+    public Vehicles getVehicleById(int vehicleId) {
+        // Implementa la lógica para obtener un vehículo por su ID desde el repositorio
+        return vehicleRepository.findById(vehicleId).orElse(null);
+    }
+    @Override
+    public void saveVehicle(Vehicles vehicle) {
+        // Implementa la lógica para guardar un vehículo en el repositorio
+        vehicleRepository.save(vehicle);
+    }
     @Override
     public List<Vehicles> getVehiclesByUserId(int userID) {
         try {

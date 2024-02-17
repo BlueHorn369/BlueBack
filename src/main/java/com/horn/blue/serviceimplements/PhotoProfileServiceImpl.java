@@ -44,8 +44,6 @@ public class PhotoProfileServiceImpl implements PhotoProfileService {
 
     // Método simulado para cargar la imagen en la nube y obtener la URL
     private String uploadImageToCloud(MultipartFile file) {
-        // Lógica para cargar la imagen en la nube (usar SDK del servicio de almacenamiento en la nube)
-        // Devolver la URL de la imagen en la nube
         return "https://example.com/cloud-storage/" + file.getOriginalFilename();
     }
 }

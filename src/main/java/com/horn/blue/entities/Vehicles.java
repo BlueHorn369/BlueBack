@@ -2,12 +2,11 @@ package com.horn.blue.entities;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 @Data
-@AllArgsConstructor
 @Entity
-
 @Table (name = "Vehicles")
 public class Vehicles {
 
@@ -26,4 +25,5 @@ public class Vehicles {
     private String carBrand;
 
     private Boolean carActive;
+
 }
