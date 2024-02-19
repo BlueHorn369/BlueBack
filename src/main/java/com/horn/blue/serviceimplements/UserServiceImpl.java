@@ -26,15 +26,22 @@ public class UserServiceImpl implements UserService {
         return objUsers;
     }
 
-
     @Override
     public List<Users> listUsers() {
         return userRepository.findAll();
     }
-
+//No se usa
+    //@Override
+    //public List<Users> searchUsersByNameAndLastName(String userName, String userLastName) {
+      //  return userRepository.findByUserNameAndUserLastName(userName, userLastName);
+//    }
+//    @Override
+//    public List<Users> findByUserNameOrUserLastName(String query) {
+//    return userRepository.findByUserNameOrUserLastName(query);
+//    }
     @Override
-    public List<Users> searchUsersByNameAndLastName(String userName, String userLastName) {
-        return userRepository.findByUserNameAndUserLastName(userName, userLastName);
+    public List<Users> findByFullName(String query) {
+        return userRepository.findByFullName(query);
     }
 
     @Override

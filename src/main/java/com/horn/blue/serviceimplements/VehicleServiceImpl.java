@@ -8,6 +8,7 @@ import com.horn.blue.serviceinterfaces.UserService;
 import com.horn.blue.serviceinterfaces.VehicleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import java.util.Optional;
 
 import java.util.List;
 
@@ -38,11 +39,10 @@ public class VehicleServiceImpl implements VehicleService {
         vehicleRepository.save(updatedVehicle);
 
     }
-
     @Override
-    public Vehicles getVehicleById(int vehicleId) {
-        // Implementa la lógica para obtener un vehículo por su ID desde el repositorio
-        return vehicleRepository.findById(vehicleId).orElse(null);
+    public Vehicles getVehicleById(int carID) {
+        Optional<Vehicles> optionalVehicle = vehicleRepository.findById(carID);
+        return optionalVehicle.orElseThrow(() -> new RuntimeException("Vehiculo no encontrado con ID: " + carID));
     }
     @Override
     public void saveVehicle(Vehicles vehicle) {
@@ -75,7 +75,6 @@ public class VehicleServiceImpl implements VehicleService {
             throw new RuntimeException("Error al eliminar el vehículo", e);
         }
     }
-
 
 
 }

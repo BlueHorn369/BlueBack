@@ -65,6 +65,11 @@ public class VehicleController {
         }
     }
 
+    @GetMapping("/listall/{carID}")
+    public Vehicles getVehicleById(@PathVariable int carID) {
+        return vehicleService.getVehicleById(carID);
+    }
+
     @DeleteMapping("/delete/{userID}/{carID}")
     public ResponseEntity<String> deleteVehicle(
             @PathVariable int userID,

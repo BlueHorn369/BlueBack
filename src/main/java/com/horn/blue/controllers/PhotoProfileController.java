@@ -19,7 +19,6 @@ public class PhotoProfileController {
             @RequestParam("file") MultipartFile file) {
 
         try {
-            // Lógica para cargar la foto de perfil y actualizar la entidad Users
             photoProfileService.uploadPhotoProfile(userID, file);
             return new ResponseEntity<>("Foto de perfil cargada correctamente", HttpStatus.OK);
 

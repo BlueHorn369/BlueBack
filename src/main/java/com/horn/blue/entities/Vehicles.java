@@ -1,9 +1,6 @@
 package com.horn.blue.entities;
 
-import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.NoArgsConstructor;
-
 import javax.persistence.*;
 @Data
 @Entity
@@ -17,6 +14,13 @@ public class Vehicles {
     @ManyToOne
     @JoinColumn(name = "userID",nullable = false)
     private Users userOwnerID;
+
+    @ManyToOne
+    @JoinColumn(name = "vehicleTypeID",nullable = false)
+    private VehicleType vehicleTypeID;
+
+    @Column(name = "carName", nullable = false, length = 100)
+    private String carName;
 
     @Column(name = "carPlate", nullable = false, length = 10)
     private String carPlate;

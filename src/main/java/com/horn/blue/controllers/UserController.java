@@ -7,6 +7,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Collections;
 import java.util.List;
 @RestController
 @RequestMapping("/users")
@@ -27,9 +28,28 @@ public class UserController {
         return new ResponseEntity<>(userService.listUsers(), HttpStatus.OK);
     }
 
-    @GetMapping("/search")
-    public List<Users> searchUsers(@RequestParam String userName, @RequestParam String userLastName) {
-        return userService.searchUsersByNameAndLastName(userName, userLastName);
+    //Rencientemente agregado
+    @GetMapping("/list/{userId}")
+    public Users getUserById(@PathVariable int userId) {
+        return userService.getUserById(userId);
+    }
+
+//    @GetMapping("/search")
+//    public List<Users> searchUsers(@RequestParam(required = false) String query) {
+//        if (query == null || query.trim().isEmpty()) {
+//            return Collections.emptyList();
+//        } else {
+//            return userService.searchUsersByQuery(query);
+//        }
+//    }
+    //@PostMapping("/search")
+//    public List<Users> searchUsers(@RequestBody String query) {
+//    return userService.findByUserNameOrUserLastName(query);
+   // }
+
+    @PostMapping("/search")
+    public List<Users> searchUsers(@RequestBody String query) {
+    return userService.findByFullName(query);
     }
 
     @PutMapping("/update/{userId}")
