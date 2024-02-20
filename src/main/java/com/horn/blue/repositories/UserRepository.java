@@ -8,8 +8,8 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 public interface UserRepository extends JpaRepository<Users, Integer> {
-    List<Users> findByUserNameAndUserLastName(String userName, String userLastName);
-    List<Users> findByUserNameStartingWithOrUserLastNameStartingWith(String userName, String userLastName);
+    //List<Users> findByUserNameAndUserLastName(String userName, String userLastName);
+    //List<Users> findByUserNameStartingWithOrUserLastNameStartingWith(String userName, String userLastName);
     Optional<Users> findByUserName(String userName);
 
 //    @Query("SELECT u FROM Users u WHERE u.userName = :query OR u.userLastName = :query")

@@ -1,7 +1,11 @@
 package com.horn.blue.serviceimplements;
 
 import com.horn.blue.entities.Users;
+import com.horn.blue.entities.VehicleDrivers;
+import com.horn.blue.entities.Vehicles;
 import com.horn.blue.repositories.UserRepository;
+import com.horn.blue.repositories.VehicleDriversRepository;
+import com.horn.blue.repositories.VehicleRepository;
 import com.horn.blue.serviceinterfaces.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -15,6 +19,10 @@ public class UserServiceImpl implements UserService {
 
     @Autowired
     private UserRepository userRepository;
+    @Autowired
+    private VehicleRepository vehicleRepository;
+    @Autowired
+    private VehicleDriversRepository vehicleDriversRepository;
 
     @Override
     public Users registerUser(Users user) {
@@ -30,15 +38,7 @@ public class UserServiceImpl implements UserService {
     public List<Users> listUsers() {
         return userRepository.findAll();
     }
-//No se usa
-    //@Override
-    //public List<Users> searchUsersByNameAndLastName(String userName, String userLastName) {
-      //  return userRepository.findByUserNameAndUserLastName(userName, userLastName);
-//    }
-//    @Override
-//    public List<Users> findByUserNameOrUserLastName(String query) {
-//    return userRepository.findByUserNameOrUserLastName(query);
-//    }
+
     @Override
     public List<Users> findByFullName(String query) {
         return userRepository.findByFullName(query);
@@ -105,5 +105,28 @@ public class UserServiceImpl implements UserService {
     @Override
     public void saveUser(Users user) {
         userRepository.save(user);
+    }
+
+    @Override
+    public boolean assignVehicleToUser(int userID, int carID) {
+        Optional<Users> optionalUser = userRepository.findById(userID);
+        Optional<Vehicles> optionalVehicle = vehicleRepository.findById(carID);
+
+        if (optionalUser.isPresent() && optionalVehicle.isPresent()) {
+            Users user = optionalUser.get();
+            Vehicles vehicle = optionalVehicle.get();
+
+            // Crear una nueva entrada en la tabla VehicleDrivers
+            VehicleDrivers vehicleDriver = new VehicleDrivers();
+            vehicleDriver.setUserDriverID(user);
+            vehicleDriver.setCarID(vehicle);
+            vehicleDriver.setDriverActive(true);
+
+            // Guardar la relación en la tabla VehicleDrivers
+            vehicleDriversRepository.save(vehicleDriver);
+
+            return true;
+        }
+        return false;
     }
 }

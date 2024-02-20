@@ -34,19 +34,6 @@ public class UserController {
         return userService.getUserById(userId);
     }
 
-//    @GetMapping("/search")
-//    public List<Users> searchUsers(@RequestParam(required = false) String query) {
-//        if (query == null || query.trim().isEmpty()) {
-//            return Collections.emptyList();
-//        } else {
-//            return userService.searchUsersByQuery(query);
-//        }
-//    }
-    //@PostMapping("/search")
-//    public List<Users> searchUsers(@RequestBody String query) {
-//    return userService.findByUserNameOrUserLastName(query);
-   // }
-
     @PostMapping("/search")
     public List<Users> searchUsers(@RequestBody String query) {
     return userService.findByFullName(query);
@@ -110,7 +97,22 @@ public class UserController {
             return new ResponseEntity<>("Error al cambiar la contraseña", HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
+//    @PostMapping("/{userID}/assign-vehicle/{carID}")
+//    public void assignVehicleToUser(@PathVariable Integer userID, @PathVariable Integer carID) {
+//        userService.assignVehicleToUser(userID, carID);
+//
+//    }
+    @PostMapping("/{userID}/assign-vehicle/{carID}")
+    public ResponseEntity<String> assignVehicleToUser(@PathVariable Integer userID, @PathVariable Integer carID) {
+        boolean success = userService.assignVehicleToUser(userID, carID);
 
+        if (success) {
+            return ResponseEntity.ok("Asignación exitosa");
+        } else {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("No se pudo realizar la asignación");
+        }
+
+    }
 
     @DeleteMapping("/delete/{userId}")
     public void deleteUser(@PathVariable int userId) {

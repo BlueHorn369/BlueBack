@@ -3,7 +3,6 @@ package com.horn.blue.serviceinterfaces;
 import com.horn.blue.entities.Users;
 import org.springframework.stereotype.Service;
 
-import java.util.Optional;
 import java.util.List;
 @Service
 public interface UserService {
@@ -19,5 +18,8 @@ public interface UserService {
     void saveUser(Users user);
     //List<Users> findByUserNameOrUserLastName(String query);
     List<Users> findByFullName(String query);
+    //agregar vehicle x driver
+    //Optional<Users> findById(int userID);
+    boolean assignVehicleToUser(int userID, int carID);
 
 }
