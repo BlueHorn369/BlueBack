@@ -1,7 +1,9 @@
 package com.horn.blue.controllers;
 
 import com.horn.blue.entities.Users;
+import com.horn.blue.entities.VehicleDrivers;
 import com.horn.blue.serviceinterfaces.UserService;
+import com.horn.blue.serviceinterfaces.VehicleDriversService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -16,6 +18,9 @@ public class UserController {
 
     @Autowired
     private UserService userService;
+    @Autowired
+    private VehicleDriversService vehicleDriversService;
+
 
     @PostMapping("/register")
     public ResponseEntity <Users> registerUser(@RequestBody Users user) {
@@ -97,21 +102,15 @@ public class UserController {
             return new ResponseEntity<>("Error al cambiar la contraseña", HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
-//    @PostMapping("/{userID}/assign-vehicle/{carID}")
-//    public void assignVehicleToUser(@PathVariable Integer userID, @PathVariable Integer carID) {
-//        userService.assignVehicleToUser(userID, carID);
-//
-//    }
+
     @PostMapping("/{userID}/assign-vehicle/{carID}")
     public ResponseEntity<String> assignVehicleToUser(@PathVariable Integer userID, @PathVariable Integer carID) {
-        boolean success = userService.assignVehicleToUser(userID, carID);
-
-        if (success) {
+        try {
+            vehicleDriversService.assignVehicleToUser(userID, carID);
             return ResponseEntity.ok("Asignación exitosa");
-        } else {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("No se pudo realizar la asignación");
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
         }
-
     }
 
     @DeleteMapping("/delete/{userId}")

@@ -18,8 +18,7 @@ public interface UserService {
     void saveUser(Users user);
     //List<Users> findByUserNameOrUserLastName(String query);
     List<Users> findByFullName(String query);
-    //agregar vehicle x driver
-    //Optional<Users> findById(int userID);
+
     boolean assignVehicleToUser(int userID, int carID);
 
 }
