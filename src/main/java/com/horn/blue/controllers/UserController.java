@@ -39,8 +39,8 @@ public class UserController {
         return userService.getUserById(userId);
     }
 
-    @PostMapping("/search")
-    public List<Users> searchUsers(@RequestBody String query) {
+    @GetMapping("/search")
+    public List<Users> searchUsers(@RequestParam String query) {
     return userService.findByFullName(query);
     }
 
