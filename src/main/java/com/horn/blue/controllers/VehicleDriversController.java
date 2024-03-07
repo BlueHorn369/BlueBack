@@ -33,7 +33,7 @@ public class VehicleDriversController {
         List<VehicleDrivers> vehicles = vehicleDriversService.getUsersByCarID(car);
         return vehicleDriversService.getUsersByCarID(car);
     }
-    //1-k-anvioQQQQ
+    //1-k-anvioQQQQaaa
     @DeleteMapping("/unassign/{userID}/{carID}")
     public ResponseEntity<String> unassignVehicleFromUser(@PathVariable int userID, @PathVariable int carID) {
         try {
