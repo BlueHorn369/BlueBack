@@ -1,7 +1,9 @@
 package com.horn.blue.controllers;
 
 //import org.springframework.web.bind.annotation.RequestMapping;
+import com.horn.blue.entities.Users;
 import com.horn.blue.entities.Vehicles;
+import com.horn.blue.serviceinterfaces.VehicleDriversService;
 import com.horn.blue.serviceinterfaces.VehicleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -24,10 +26,11 @@ public class VehicleController {
 
         try {
             vehicleService.registerVehicleForUser(userID, vehicle);
+            //driversService.assignVehicleToUser(userID, (int) vehicle.getCarID());
             return new ResponseEntity<>("Vehículo registrado correctamente", HttpStatus.OK);
 
-        } catch (Exception e) {
-            return new ResponseEntity<>("Error al registrar el vehículo", HttpStatus.INTERNAL_SERVER_ERROR);
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
         }
     }
     @PutMapping("/update/{userID}/{carID}")

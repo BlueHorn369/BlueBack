@@ -33,5 +33,14 @@ public class VehicleDriversController {
         List<VehicleDrivers> vehicles = vehicleDriversService.getUsersByCarID(car);
         return vehicleDriversService.getUsersByCarID(car);
     }
+    @DeleteMapping("/unassign/{userID}/{carID}")
+    public ResponseEntity<String> unassignVehicleFromUser(@PathVariable int userID, @PathVariable int carID) {
+        try {
+            vehicleDriversService.unassignVehicleFromUser(userID, carID);
+            return new ResponseEntity<>("Asignación eliminada correctamente.", HttpStatus.OK);
+        } catch (IllegalArgumentException e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+        }
+    }
 
 }

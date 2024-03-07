@@ -52,6 +52,25 @@ public class VehicleDriversServiceImpl implements VehicleDriversService {
         VehicleDrivers assignment = new VehicleDrivers();
         assignment.setUserDriverID(user);
         assignment.setCarID(car);
+        assignment.setDriverActive(true);
         vehicleDriversRepository.save(assignment);
+    }
+
+    @Override
+    public void unassignVehicleFromUser(int userID, int carID) {
+        Users user = userService.getUserById(userID);
+        Vehicles car = vehicleService.getVehicleById(carID);
+
+        // Buscar la asignación existente para el usuario y el vehículo
+        List<VehicleDrivers> existingAssignmentsForUserAndCar = vehicleDriversRepository.findByUserDriverIDAndCarID(user, car);
+
+        // Verificar si existe la asignación
+        if (!existingAssignmentsForUserAndCar.isEmpty()) {
+            // Eliminar la asignación
+            VehicleDrivers assignment = existingAssignmentsForUserAndCar.get(0); // Suponiendo que solo hay una asignación posible
+            vehicleDriversRepository.delete(assignment);
+        } else {
+            throw new IllegalArgumentException("No se encontró ninguna asignación para el usuario y el vehículo especificados.");
+        }
     }
 }

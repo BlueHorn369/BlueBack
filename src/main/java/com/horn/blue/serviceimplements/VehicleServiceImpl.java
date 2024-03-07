@@ -1,8 +1,10 @@
 package com.horn.blue.serviceimplements;
 
 import com.horn.blue.entities.Users;
+import com.horn.blue.entities.VehicleDrivers;
 import com.horn.blue.entities.Vehicles;
 import com.horn.blue.repositories.UserRepository;
+import com.horn.blue.repositories.VehicleDriversRepository;
 import com.horn.blue.repositories.VehicleRepository;
 import com.horn.blue.serviceinterfaces.UserService;
 import com.horn.blue.serviceinterfaces.VehicleService;
@@ -16,7 +18,8 @@ import java.util.List;
 public class VehicleServiceImpl implements VehicleService {
         @Autowired
         private VehicleRepository vehicleRepository;
-
+        @Autowired
+        private VehicleDriversRepository vehicleDriversRepository;
         @Autowired
         private UserService userService;
 
@@ -27,6 +30,13 @@ public class VehicleServiceImpl implements VehicleService {
             vehicle.setUserOwnerID(owner);
             vehicle.setCarActive(true);
             vehicleRepository.save(vehicle);
+
+            VehicleDrivers vehicleDrivers = new VehicleDrivers();
+            vehicleDrivers.setCarID(vehicle);
+            vehicleDrivers.setUserDriverID(owner);
+            vehicleDrivers.setDriverActive(true);
+            vehicleDriversRepository.save(vehicleDrivers);
+
 
         } catch (Exception e) {
             throw new RuntimeException("Error al registrar el vehículo", e);

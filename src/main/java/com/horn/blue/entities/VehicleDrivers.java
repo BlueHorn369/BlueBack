@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import javax.persistence.*;
 import java.io.Serializable;
+import java.time.LocalDateTime;
 
 @Data
 @Entity
@@ -19,8 +20,8 @@ public class VehicleDrivers {
     @JoinColumn(name = "carID",nullable = false)
     private Vehicles carID;
 
-    @OneToOne
-    @JoinColumn(name = "userID",nullable = false, unique = true)
+    @ManyToOne
+    @JoinColumn(name = "userID",nullable = false)
     private Users userDriverID;
 
     private Boolean driverActive;

@@ -9,6 +9,6 @@ import java.util.List;
 public interface VehicleDriversService {
     List<VehicleDrivers> getVehiclesByUser(Users user);
     List<VehicleDrivers> getUsersByCarID(Vehicles car);
-
+    void unassignVehicleFromUser(int userID, int carID);
     void assignVehicleToUser(int userID, int carID);
 }
