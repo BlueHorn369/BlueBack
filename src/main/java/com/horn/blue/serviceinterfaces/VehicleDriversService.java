@@ -11,4 +11,6 @@ public interface VehicleDriversService {
     List<VehicleDrivers> getUsersByCarID(Vehicles car);
     void unassignVehicleFromUser(int userID, int carID);
     void assignVehicleToUser(int userID, int carID);
+    VehicleDrivers getDriverById(int findByDriverID);
+
 }

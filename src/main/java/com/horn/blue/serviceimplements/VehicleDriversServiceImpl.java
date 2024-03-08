@@ -21,6 +21,7 @@ public class VehicleDriversServiceImpl implements VehicleDriversService {
     private UserService userService;
     @Autowired
     private VehicleService vehicleService;
+
     @Override
     public List<VehicleDrivers> getVehiclesByUser(Users user) {
         return vehicleDriversRepository.findByUserDriverID(user);
@@ -72,5 +73,9 @@ public class VehicleDriversServiceImpl implements VehicleDriversService {
         } else {
             throw new IllegalArgumentException("No se encontró ninguna asignación para el usuario y el vehículo especificados.");
         }
+    }
+
+    public VehicleDrivers getDriverById(int driverID) {
+        return vehicleDriversRepository.findByVehiclexdriverID(driverID);
     }
 }

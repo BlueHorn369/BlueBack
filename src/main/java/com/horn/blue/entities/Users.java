@@ -38,6 +38,7 @@ public class Users {
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     @Column(name = "registerDate", nullable = false)
     private LocalDateTime registerDate;
+
     /* @Column(name = "userActive", nullable = false, length = 100)
      private String userActive;*/
 

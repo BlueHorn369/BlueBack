@@ -2,6 +2,8 @@ package com.horn.blue.entities;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import org.springframework.format.annotation.DateTimeFormat;
+
 import javax.persistence.*;
 import java.io.Serializable;
 import java.time.LocalDateTime;
@@ -25,5 +27,7 @@ public class VehicleDrivers {
     private Users userDriverID;
 
     private Boolean driverActive;
+
+
 
 }

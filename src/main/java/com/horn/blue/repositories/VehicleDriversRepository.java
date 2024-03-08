@@ -15,4 +15,6 @@ public interface VehicleDriversRepository extends JpaRepository<VehicleDrivers, 
     List<VehicleDrivers> findByCarID(Vehicles car);
 
     List<VehicleDrivers> findByUserDriverIDAndCarID(Users user, Vehicles car);
+
+    VehicleDrivers findByVehiclexdriverID(int driverID);
 }
