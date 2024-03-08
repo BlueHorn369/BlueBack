@@ -57,7 +57,7 @@ public class VehicleTripController {
         List<VehicleTrip> trips = tripService.getAllTrips();
         return new ResponseEntity<>(trips, HttpStatus.OK);
     }
-//find by carID->list->listar
+//find by carID->list->listarzzz
     @GetMapping("/{tripID}")
     public ResponseEntity<VehicleTrip> getTripById(@PathVariable int tripID) {
         VehicleTrip trip = tripService.getTripById(tripID);
