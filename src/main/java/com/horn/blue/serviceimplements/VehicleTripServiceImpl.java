@@ -1,5 +1,6 @@
 package com.horn.blue.serviceimplements;
 
+import com.horn.blue.entities.Users;
 import com.horn.blue.entities.VehicleDrivers;
 import com.horn.blue.entities.VehicleTrip;
 import com.horn.blue.repositories.VehicleDriversRepository;
@@ -61,8 +62,15 @@ public class VehicleTripServiceImpl implements VehicleTripService {
 
     @Override
     public List<VehicleTrip> getTripsByDriverId(int driverID) {
+
         return null;
     }
 
+    @Override
+    public List<VehicleTrip> getTripsByUserID(int userID) {
+        Users user = new Users();
+        user.setUserID(userID);
+        return tripRepository.findByVehicleDrivers_UserDriverID(user);
+    }
 
 }

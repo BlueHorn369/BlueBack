@@ -67,4 +67,12 @@ public class VehicleTripController {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
     }
+
+    @GetMapping("/by-user/{userID}")
+    public ResponseEntity<List<VehicleTrip>> getTripsByUserID(@PathVariable int userID) {
+        List<VehicleTrip> trips = tripService.getTripsByUserID(userID);
+        return new ResponseEntity<>(trips, HttpStatus.OK);
+    }
+
+
 }
