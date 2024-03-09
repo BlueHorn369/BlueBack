@@ -14,16 +14,12 @@ public class PhotoProfileController {
     private PhotoProfileService photoProfileService;
 
     @PostMapping("/upload/{userID}")
-    public ResponseEntity<String> uploadPhotoProfile(
-            @PathVariable int userID,
-            @RequestParam("file") MultipartFile file) {
-
+    public ResponseEntity<String> uploadPhotoProfile(@PathVariable int userID, @RequestParam("file") MultipartFile file) {
         try {
             photoProfileService.uploadPhotoProfile(userID, file);
-            return new ResponseEntity<>("Foto de perfil cargada correctamente", HttpStatus.OK);
-
+            return ResponseEntity.ok("Foto cargada correctamente.");
         } catch (Exception e) {
-            return new ResponseEntity<>("Error al cargar la foto de perfil", HttpStatus.INTERNAL_SERVER_ERROR);
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error al cargar la foto de perfil: " + e.getMessage());
         }
     }
 }

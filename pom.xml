@@ -65,6 +65,13 @@
 			<artifactId>hibernate-jpa-2.1-api</artifactId>
 			<version>1.0.0.Final</version>
 		</dependency>
+		<dependency>
+			<groupId>com.microsoft.azure</groupId>
+			<artifactId>azure-storage</artifactId>
+			<version>8.6.6</version> <!-- Asegúrate de verificar la última versión -->
+		</dependency>
+
+
 	</dependencies>
 
 	<build>
