@@ -78,7 +78,6 @@ public class PhotoProfileServiceImpl implements PhotoProfileService {
 
     }
 
-
 }
 
 
