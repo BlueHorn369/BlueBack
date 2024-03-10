@@ -22,8 +22,9 @@ public class VehicleTripServiceImpl implements VehicleTripService {
     private VehicleDriversRepository driversRepository;
 
     @Override
-    public VehicleTrip startTrip(VehicleTrip trip, int driverID) {
+    public VehicleTrip startTrip(int driverID) {
         VehicleDrivers driver = driversRepository.findById(driverID).orElse(null);
+        VehicleTrip trip = new VehicleTrip();
         if (driver != null) {
             trip.setVehicleDrivers(driver);
             trip.setTripStartTime(LocalDateTime.now());
@@ -40,7 +41,8 @@ public class VehicleTripServiceImpl implements VehicleTripService {
         Optional<VehicleTrip> opTrip= tripRepository.findById(tripID);
         if(opTrip.isPresent()) {
             VehicleTrip tripUpdate = opTrip.get();
-       tripUpdate.setTripStopTime(LocalDateTime.now());
+            tripUpdate.setTripStopTime(LocalDateTime.now());
+            tripUpdate.setDrivingActive(false);
 
         tripRepository.save(tripUpdate);
 

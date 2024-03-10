@@ -22,11 +22,13 @@ public class VehicleTripController {
     private VehicleDriversService driversService;
 
     @PostMapping("/start/{driverID}")
-    public ResponseEntity<VehicleTrip> startTrip(@RequestBody VehicleTrip trip, @PathVariable int driverID) {
+    public ResponseEntity<VehicleTrip> startTrip(@PathVariable int driverID) {
         VehicleDrivers driver = driversService.getDriverById(driverID);
         if (driver != null) {
+            VehicleTrip trip = new VehicleTrip();
             trip.setVehicleDrivers(driver);
-            VehicleTrip startedTrip = tripService.startTrip(trip, driverID);
+
+            VehicleTrip startedTrip = tripService.startTrip(driverID);
             return new ResponseEntity<>(startedTrip, HttpStatus.CREATED);
         } else {
             // Manejar el caso cuando no se encuentra el conductor
@@ -34,18 +36,6 @@ public class VehicleTripController {
         }
     }
 
-//    @PutMapping("/stop/{driverID}")
-//    public ResponseEntity<VehicleTrip> stopTrip(@RequestBody VehicleTrip trip, @PathVariable int driverID) {
-//        VehicleDrivers driver = driversService.getDriverById(driverID);
-//        if (driver != null) {
-//            trip.setVehicleDrivers(driver);
-//            VehicleTrip stoppedTrip = tripService.stopTrip(trip, driverID);
-//            return new ResponseEntity<>(stoppedTrip, HttpStatus.OK);
-//        } else {
-//            // Manejar el caso cuando no se encuentra el conductor
-//            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-//        }
-//    }
     @PutMapping("/stop/{tripID}")
     public ResponseEntity<String> stopTripData(@PathVariable int tripID) {
         tripService.stopTrip(tripID);

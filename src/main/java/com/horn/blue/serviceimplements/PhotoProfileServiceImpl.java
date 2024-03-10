@@ -5,6 +5,7 @@ import com.horn.blue.entities.Users;
 import com.horn.blue.repositories.PhotoProfileRepository;
 import com.horn.blue.serviceinterfaces.PhotoProfileService;
 import com.horn.blue.serviceinterfaces.UserService;
+import com.microsoft.azure.storage.blob.BlobProperties;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -68,6 +69,10 @@ public class PhotoProfileServiceImpl implements PhotoProfileService {
 
             // Sube el archivo al blob
             blob.upload(file.getInputStream(), file.getSize());
+
+            BlobProperties properties = blob.getProperties();
+            properties.setContentDisposition("inline");
+            blob.uploadProperties();
 
             // Devuelve la URL del blob recién cargado
             return blob.getUri().toString();

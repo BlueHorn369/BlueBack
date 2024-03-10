@@ -8,7 +8,7 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 public interface VehicleTripService {
-    VehicleTrip startTrip(VehicleTrip trip, int driverID);
+    VehicleTrip startTrip(int driverID);
 
     void stopTrip(int tripID);
 
