@@ -19,5 +19,6 @@ public interface VehicleTripService {
     List<VehicleTrip> getTripsByDriverId(int driverID);
 
     List<VehicleTrip> getTripsByUserID(int userID);
+    List<VehicleTrip> getTripsByCarID(int carID);
 
 }
