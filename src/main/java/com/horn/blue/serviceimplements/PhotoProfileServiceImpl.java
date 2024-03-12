@@ -1,6 +1,7 @@
 package com.horn.blue.serviceimplements;
 
 import com.horn.blue.entities.PhotoProfile;
+import com.horn.blue.entities.PhotoVehicle;
 import com.horn.blue.entities.Users;
 import com.horn.blue.repositories.PhotoProfileRepository;
 import com.horn.blue.serviceinterfaces.PhotoProfileService;
@@ -28,9 +29,12 @@ public class PhotoProfileServiceImpl implements PhotoProfileService {
     @Override
     @Transactional
     public void uploadPhotoProfile(int userID, MultipartFile file) {
-        try {
+
             Users user = userService.getUserById(userID);
 
+            if (photoProfileRepository.existsByUserPhotoID(user)) {
+                throw new IllegalArgumentException("Ya existe una foto de perfil para el usuario con ID: " + userID);
+            }
             PhotoProfile photoProfile = new PhotoProfile();
             photoProfile.setUserPhotoID(user);
             photoProfile.setPhotoName(file.getOriginalFilename());
@@ -39,10 +43,6 @@ public class PhotoProfileServiceImpl implements PhotoProfileService {
             photoProfile.setPhotoUrl(imageUrl);
 
             photoProfileRepository.save(photoProfile);
-
-        } catch (Exception e) {
-            throw new RuntimeException("Error al cargar la foto de perfil", e);
-        }
     }
 
     private String uploadImageToCloud(MultipartFile file) {
@@ -81,6 +81,29 @@ public class PhotoProfileServiceImpl implements PhotoProfileService {
             throw new RuntimeException("Error al cargar la imagen en Azure Storage", e);
         }
 
+    }
+
+    @Override
+    public void updatePhotoProfile(int photoID, MultipartFile file) {
+        try {
+            // Obtén la entidad PhotoVehicle existente
+            PhotoProfile photoProfile = photoProfileRepository.findById(photoID)
+                    .orElseThrow(() -> new RuntimeException("Foto del vehículo no encontrada"));
+
+            // Lógica para cargar la nueva imagen en la nube y obtener la URL
+            String imageUrl = uploadImageToCloud(file);
+
+            // Actualiza la información de la foto del vehículo
+            photoProfile.setPhotoName(file.getOriginalFilename());
+            photoProfile.setPhotoUrl(imageUrl);
+
+            // Guarda la entidad actualizada en la base de datos
+            photoProfileRepository.save(photoProfile);
+
+        } catch (Exception e) {
+            // Manejo de excepciones si es necesario
+            throw new RuntimeException("Error al actualizar la foto del vehículo", e);
+        }
     }
 
 }

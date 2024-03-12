@@ -13,7 +13,6 @@ public class PhotoVehicleController {
     @Autowired
     private PhotoVehicleService photoVehicleService;
 
-    // Otros métodos existentes...
 
     @PostMapping("/upload/{carID}")
     public ResponseEntity<String> uploadVehicleImage(
@@ -26,7 +25,7 @@ public class PhotoVehicleController {
             return new ResponseEntity<>("Foto del vehículo cargada correctamente", HttpStatus.OK);
 
         } catch (Exception e) {
-            return new ResponseEntity<>("Error al cargar la foto del vehículo", HttpStatus.INTERNAL_SERVER_ERROR);
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error al cargar la foto del vehiculo: " + e.getMessage());
         }
     }
     @PutMapping("/update-image/{photoID}")

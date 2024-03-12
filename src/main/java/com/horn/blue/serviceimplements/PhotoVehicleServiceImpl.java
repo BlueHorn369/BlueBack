@@ -5,9 +5,16 @@ import com.horn.blue.entities.Vehicles;
 import com.horn.blue.repositories.PhotoVehicleRepository;
 import com.horn.blue.repositories.VehicleRepository;
 import com.horn.blue.serviceinterfaces.PhotoVehicleService;
+import com.microsoft.azure.storage.CloudStorageAccount;
+import com.microsoft.azure.storage.blob.BlobProperties;
+import com.microsoft.azure.storage.blob.CloudBlobClient;
+import com.microsoft.azure.storage.blob.CloudBlobContainer;
+import com.microsoft.azure.storage.blob.CloudBlockBlob;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
+
+import java.io.InputStream;
 
 @Service
 public class PhotoVehicleServiceImpl implements PhotoVehicleService {
@@ -19,12 +26,14 @@ public class PhotoVehicleServiceImpl implements PhotoVehicleService {
 
     @Override
     public void uploadVehicleImage(int carID, MultipartFile file) {
-        try {
-            // Obtén el vehículo
+
             Vehicles vehicle = vehicleRepository.findById(carID)
                     .orElseThrow(() -> new RuntimeException("Vehículo no encontrado"));
 
-            // Crea una entidad PhotoVehicle
+        if (photoVehicleRepository.existsByPhotoVehicleID(vehicle)) {
+            throw new IllegalArgumentException("Ya existe una foto para el vehiculo con ID: " + carID);
+        }
+
             PhotoVehicle photoVehicle = new PhotoVehicle();
             photoVehicle.setPhotoVehicleID(vehicle);
             photoVehicle.setPhotoName(file.getOriginalFilename());
@@ -36,10 +45,6 @@ public class PhotoVehicleServiceImpl implements PhotoVehicleService {
             // Guarda la entidad PhotoVehicle en la base de datos
             photoVehicleRepository.save(photoVehicle);
 
-        } catch (Exception e) {
-            // Manejo de excepciones si es necesario
-            throw new RuntimeException("Error al cargar la foto del vehículo", e);
-        }
     }
     @Override
     public void updateVehicleImage(int photoID, MultipartFile file) {
@@ -66,9 +71,33 @@ public class PhotoVehicleServiceImpl implements PhotoVehicleService {
 
     // Método simulado para cargar la imagen en la nube y obtener la URL
     private String uploadImageToCloud(MultipartFile file) {
-        // Lógica para cargar la imagen en la nube (usar SDK del servicio de almacenamiento en la nube)
-        // Devolver la URL de la imagen en la nube
-        return "https://example.com/cloud-storage/" + file.getOriginalFilename();
+
+        try {
+            String accountName = "bluehornrepositoryv2";
+            String accountKey = "P/GTAixsGUzjfSoqqmdCEfXyusXF8UResxCrR5qvmFONCfyY4j039a5MXw5wUBZSoS+053/CdbXu+AStqiBrmA==";
+            String containerName2 = "imagesvehicle";
+
+            String storageConnectionString = String.format("DefaultEndpointsProtocol=https;AccountName=%s;AccountKey=%s;EndpointSuffix=core.windows.net", accountName, accountKey);
+
+            CloudStorageAccount storageAccount = CloudStorageAccount.parse(storageConnectionString);
+            CloudBlobClient blobClient = storageAccount.createCloudBlobClient();
+            CloudBlobContainer container = blobClient.getContainerReference(containerName2);
+
+            String blobName = java.util.UUID.randomUUID() + "_" + file.getOriginalFilename();
+
+            CloudBlockBlob blob = container.getBlockBlobReference(blobName);
+
+            blob.upload(file.getInputStream(), file.getSize());
+
+            BlobProperties properties = blob.getProperties();
+            properties.setContentDisposition("inline");
+            blob.uploadProperties();
+
+            return blob.getUri().toString();
+
+        } catch (Exception e) {
+            throw new RuntimeException("Error al cargar la imagen en Azure Storage", e);
+        }
     }
 }
 

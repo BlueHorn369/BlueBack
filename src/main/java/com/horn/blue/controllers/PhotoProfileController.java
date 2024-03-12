@@ -22,4 +22,19 @@ public class PhotoProfileController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error al cargar la foto de perfil: " + e.getMessage());
         }
     }
+
+    @PutMapping("/update-image/{photoID}")
+    public ResponseEntity<String> updateVehicleImage(
+            @PathVariable int photoID,
+            @RequestParam("file") MultipartFile file) {
+
+        try {
+            // Lógica para actualizar la foto del vehículo
+            photoProfileService.updatePhotoProfile(photoID, file);
+            return new ResponseEntity<>("Foto del vehículo actualizada correctamente", HttpStatus.OK);
+
+        } catch (Exception e) {
+            return new ResponseEntity<>("Error al actualizar la foto del vehículo", HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
 }
