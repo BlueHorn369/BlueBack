@@ -49,7 +49,6 @@ public class UserController {
         userService.updateUserData(userId, updatedUser);
         //response entity pa todos los controllers
         // no se usa void dice
-
     }
 
     @PutMapping("/update/{userId}/updateEmail")

@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -22,13 +23,12 @@ public class VehicleController {
     @PostMapping("/register/{userID}")
     public ResponseEntity<String> registerVehicleForUser(
             @PathVariable int userID,
+            @RequestParam("imageFile") MultipartFile imageFile,
             @RequestBody Vehicles vehicle) {
 
         try {
-            vehicleService.registerVehicleForUser(userID, vehicle);
-            //driversService.assignVehicleToUser(userID, (int) vehicle.getCarID());
+            vehicleService.registerVehicleForUser(userID, vehicle, imageFile);
             return new ResponseEntity<>("Vehículo registrado correctamente", HttpStatus.OK);
-
         } catch (IllegalArgumentException e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
         }

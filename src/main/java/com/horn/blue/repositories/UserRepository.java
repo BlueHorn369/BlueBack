@@ -15,4 +15,7 @@ public interface UserRepository extends JpaRepository<Users, Integer> {
 
     @Query("SELECT u FROM Users u WHERE LOWER(CONCAT(u.userName, ' ', u.userLastName)) LIKE LOWER(concat('%', :query, '%'))")
     List<Users> findByFullName(@Param("query") String query);
+
+//    @Query("SELECT u FROM Users u LEFT JOIN FETCH u.photoProfile WHERE u.userID = :userId")
+//    Optional<Users> findByIdWithPhotoProfile(@Param("userId") int userId);
 }

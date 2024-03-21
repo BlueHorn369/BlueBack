@@ -1,6 +1,7 @@
 package com.horn.blue.serviceinterfaces;
 
 import com.horn.blue.entities.VehicleTrip;
+import com.horn.blue.entities.Vehicles;
 import com.horn.blue.repositories.VehicleTripRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -20,5 +21,7 @@ public interface VehicleTripService {
 
     List<VehicleTrip> getTripsByUserID(int userID);
     List<VehicleTrip> getTripsByCarID(int carID);
+
+    List<Vehicles> getVehiclesWithDrivingActive();
 
 }

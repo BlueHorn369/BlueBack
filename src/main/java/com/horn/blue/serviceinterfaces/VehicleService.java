@@ -1,12 +1,13 @@
 package com.horn.blue.serviceinterfaces;
 
 import com.horn.blue.entities.Vehicles;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 import java.util.Optional;
 
 public interface VehicleService {
-    void registerVehicleForUser(int userID, Vehicles vehicle);
+    void registerVehicleForUser(int userID, Vehicles vehicle, MultipartFile imageFile);
     void updateVehicle(int userID, int carID, Vehicles updatedVehicle);
     List<Vehicles> getVehiclesByUserId(int userID);
     void deleteVehicle(int userID, int carID, String currentPassword);

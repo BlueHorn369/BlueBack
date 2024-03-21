@@ -1,5 +1,6 @@
 package com.horn.blue.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -41,6 +42,10 @@ public class Users {
 
     /* @Column(name = "userActive", nullable = false, length = 100)
      private String userActive;*/
+
+//    @OneToOne(fetch = FetchType.LAZY, mappedBy = "userPhotoID")
+//    @JsonIgnore
+//    private PhotoProfile photoProfile;
 
     private Boolean userActive;
 

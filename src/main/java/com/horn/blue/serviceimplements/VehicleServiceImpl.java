@@ -6,10 +6,13 @@ import com.horn.blue.entities.Vehicles;
 import com.horn.blue.repositories.UserRepository;
 import com.horn.blue.repositories.VehicleDriversRepository;
 import com.horn.blue.repositories.VehicleRepository;
+import com.horn.blue.serviceinterfaces.PhotoVehicleService;
 import com.horn.blue.serviceinterfaces.UserService;
 import com.horn.blue.serviceinterfaces.VehicleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
+
 import java.util.Optional;
 
 import java.util.List;
@@ -22,22 +25,27 @@ public class VehicleServiceImpl implements VehicleService {
         private VehicleDriversRepository vehicleDriversRepository;
         @Autowired
         private UserService userService;
+        @Autowired
+        private PhotoVehicleService photoVehicleService;
 
-        @Override
-        public void registerVehicleForUser(int userID, Vehicles vehicle) {
+    @Override
+    public void registerVehicleForUser(int userID, Vehicles vehicle, MultipartFile imageFile) {
         try {
             Users owner = userService.getUserById(userID);
+
             vehicle.setUserOwnerID(owner);
             vehicle.setCarActive(true);
+
             vehicleRepository.save(vehicle);
+
+            photoVehicleService.uploadVehicleImage(vehicle.getCarID(), imageFile);
 
             VehicleDrivers vehicleDrivers = new VehicleDrivers();
             vehicleDrivers.setCarID(vehicle);
             vehicleDrivers.setUserDriverID(owner);
             vehicleDrivers.setDriverActive(true);
+
             vehicleDriversRepository.save(vehicleDrivers);
-
-
         } catch (Exception e) {
             throw new RuntimeException("Error al registrar el vehículo", e);
         }

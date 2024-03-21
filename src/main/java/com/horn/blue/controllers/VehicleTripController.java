@@ -3,6 +3,7 @@ package com.horn.blue.controllers;
 import com.horn.blue.entities.Users;
 import com.horn.blue.entities.VehicleDrivers;
 import com.horn.blue.entities.VehicleTrip;
+import com.horn.blue.entities.Vehicles;
 import com.horn.blue.serviceinterfaces.VehicleDriversService;
 import com.horn.blue.serviceinterfaces.VehicleTripService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -67,6 +68,11 @@ public class VehicleTripController {
     public ResponseEntity<List<VehicleTrip>> getTripsByCarID(@PathVariable int carID) {
         List<VehicleTrip> trips = tripService.getTripsByCarID(carID);
         return new ResponseEntity<>(trips, HttpStatus.OK);
+    }
+    @GetMapping("/driving-active")
+    public ResponseEntity<List<Vehicles>> getVehiclesWithDrivingActive() {
+        List<Vehicles> vehicles = tripService.getVehiclesWithDrivingActive();
+        return new ResponseEntity<>(vehicles, HttpStatus.OK);
     }
 
 

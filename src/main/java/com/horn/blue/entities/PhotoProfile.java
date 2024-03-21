@@ -1,5 +1,6 @@
 package com.horn.blue.entities;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.Data;
 
 import javax.persistence.*;
@@ -18,8 +19,9 @@ public class PhotoProfile {
     @Column(name = "photoUrl", nullable = false)
     private String photoUrl; // Almacena la URL de la imagen en la nube
 
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name = "userID",nullable = false)
+   // @JsonManagedReference
     private Users userPhotoID;
 }
 
