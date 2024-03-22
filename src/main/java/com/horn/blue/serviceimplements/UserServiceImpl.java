@@ -103,6 +103,11 @@ public class UserServiceImpl implements UserService {
 
         return user;
     }
+//este es el cambio
+//    @Override
+//    public Optional<Object[]> getUserWithPhotoById(int userId) {
+//        return userRepository.findUserWithPhotoById(userId).stream().findFirst();
+//    }
 
     @Override
     public void saveUser(Users user) {

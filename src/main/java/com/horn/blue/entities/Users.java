@@ -40,13 +40,6 @@ public class Users {
     @Column(name = "registerDate", nullable = false)
     private LocalDateTime registerDate;
 
-    /* @Column(name = "userActive", nullable = false, length = 100)
-     private String userActive;*/
-
-//    @OneToOne(fetch = FetchType.LAZY, mappedBy = "userPhotoID")
-//    @JsonIgnore
-//    private PhotoProfile photoProfile;
-
     private Boolean userActive;
 
 }

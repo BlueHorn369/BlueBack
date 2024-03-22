@@ -21,7 +21,6 @@ public class PhotoProfile {
 
     @ManyToOne
     @JoinColumn(name = "userID",nullable = false)
-   // @JsonManagedReference
     private Users userPhotoID;
 }
 

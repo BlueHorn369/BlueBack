@@ -4,6 +4,8 @@ import com.horn.blue.entities.Users;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
+
 @Service
 public interface UserService {
     Users registerUser(Users user);
@@ -20,5 +22,6 @@ public interface UserService {
     List<Users> findByFullName(String query);
 
     boolean assignVehicleToUser(int userID, int carID);
+   // Optional<Object[]> getUserWithPhotoById(int userId);
 
 }

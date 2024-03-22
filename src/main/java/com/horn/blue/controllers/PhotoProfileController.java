@@ -1,11 +1,14 @@
 package com.horn.blue.controllers;
 
+import com.horn.blue.entities.PhotoProfile;
 import com.horn.blue.serviceinterfaces.PhotoProfileService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/photo-profiles")
@@ -35,6 +38,16 @@ public class PhotoProfileController {
 
         } catch (Exception e) {
             return new ResponseEntity<>("Error al actualizar la foto del vehículo", HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @GetMapping("/users/{userId}/photoProfiles")
+    public ResponseEntity<List<PhotoProfile>> getPhotoProfilesByUserId(@PathVariable int userId) {
+        List<PhotoProfile> photoProfiles = photoProfileService.getPhotoProfilesByUserId(userId);
+        if (!photoProfiles.isEmpty()) {
+            return ResponseEntity.ok(photoProfiles);
+        } else {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
         }
     }
 }

@@ -17,7 +17,7 @@ public class PhotoVehicle {
     @Column(name = "photoUrl", nullable = true)
     private String photoUrl;
 
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name = "carID", nullable = false)
     private Vehicles photoVehicleID;
 }

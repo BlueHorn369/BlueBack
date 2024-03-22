@@ -9,8 +9,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
+
 @RestController
 @RequestMapping("/users")
 
@@ -39,6 +39,21 @@ public class UserController {
         return userService.getUserById(userId);
     }
 
+
+    //ultimo agregado 21 waos
+//    @GetMapping("/users/{userId}")
+//    public ResponseEntity<Object[]> getUserWithPhotoById(@PathVariable int userId) {
+//        Optional<Object[]> userWithPhoto = userService.getUserWithPhotoById(userId);
+//        //if (userWithPhoto.isPresent()) {
+//            return ResponseEntity.ok(userWithPhoto.get());
+//        //} else {
+////            Map<String, String> errorMessage = new HashMap<>();
+////            errorMessage.put("error", "User not found");
+////            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(errorMessage);
+////        }
+//    }
+
+    //////////////
     @GetMapping("/search")
     public List<Users> searchUsers(@RequestParam String query) {
     return userService.findByFullName(query);

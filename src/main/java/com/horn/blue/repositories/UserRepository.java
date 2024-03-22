@@ -18,4 +18,7 @@ public interface UserRepository extends JpaRepository<Users, Integer> {
 
 //    @Query("SELECT u FROM Users u LEFT JOIN FETCH u.photoProfile WHERE u.userID = :userId")
 //    Optional<Users> findByIdWithPhotoProfile(@Param("userId") int userId);
+//    @Query("SELECT u, p FROM Users u JOIN u.userPhotoID p WHERE u.userID = :userId")
+//    List<Object[]> findUserWithPhotoById(@Param("userId") int userId);
+
 }

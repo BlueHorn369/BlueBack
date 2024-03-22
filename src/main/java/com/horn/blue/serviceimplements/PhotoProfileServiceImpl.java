@@ -16,6 +16,7 @@ import com.microsoft.azure.storage.blob.CloudBlobContainer;
 import com.microsoft.azure.storage.blob.CloudBlockBlob;
 
 import javax.transaction.Transactional;
+import java.util.List;
 
 @Service
 public class PhotoProfileServiceImpl implements PhotoProfileService {
@@ -104,6 +105,11 @@ public class PhotoProfileServiceImpl implements PhotoProfileService {
             // Manejo de excepciones si es necesario
             throw new RuntimeException("Error al actualizar la foto del vehículo", e);
         }
+    }
+
+    @Override
+    public List<PhotoProfile> getPhotoProfilesByUserId(int userId) {
+        return photoProfileRepository.findByUserPhotoIDUserID(userId);
     }
 
 }

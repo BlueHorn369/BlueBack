@@ -15,6 +15,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.InputStream;
+import java.util.List;
 
 @Service
 public class PhotoVehicleServiceImpl implements PhotoVehicleService {
@@ -67,6 +68,12 @@ public class PhotoVehicleServiceImpl implements PhotoVehicleService {
             // Manejo de excepciones si es necesario
             throw new RuntimeException("Error al actualizar la foto del vehículo", e);
         }
+    }
+
+    @Override
+    public List<PhotoVehicle> getPhotoVehiclesByCarId(int carId) {
+
+        return photoVehicleRepository.findByPhotoVehicleIDCarID(carId);
     }
 
     // Método simulado para cargar la imagen en la nube y obtener la URL
