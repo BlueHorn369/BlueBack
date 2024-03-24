@@ -1,6 +1,8 @@
 package com.horn.blue.entities;
 
 import lombok.Data;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
@@ -15,8 +17,9 @@ public class VehicleTrip {
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private int tripID;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "vehiclexdriverID",nullable = false)
+    @OnDelete(action = OnDeleteAction.CASCADE)
     private VehicleDrivers vehicleDrivers;
 
     @DateTimeFormat(pattern = "yyyy-MM-dd")

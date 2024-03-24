@@ -1,6 +1,9 @@
 package com.horn.blue.entities;
 
 import lombok.Data;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
+
 import javax.persistence.*;
 @Data
 @Entity
@@ -15,8 +18,9 @@ public class Vehicles {
     @JoinColumn(name = "userID",nullable = false)
     private Users userOwnerID;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "vehicleTypeID",nullable = false)
+    @OnDelete(action = OnDeleteAction.CASCADE)
     private VehicleType vehicleTypeID;
 
     @Column(name = "carName", nullable = false, length = 100)

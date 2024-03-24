@@ -18,4 +18,6 @@ public interface VehicleTripRepository extends JpaRepository<VehicleTrip, Intege
     @Query("SELECT DISTINCT vt.vehicleDrivers.carID FROM VehicleTrip vt WHERE vt.drivingActive = true")
     List<Vehicles> findActiveVehicles();
 
+    List<VehicleTrip> findByDrivingActiveTrue();
+
 }
